@@ -1,0 +1,164 @@
+﻿@using Fyp.Models
+@{
+    int row = 0;
+    int totalQty = 0;
+    decimal totalBill = 0;
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+<!-- Start All Title Box -->
+<div class="all-title-box">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <h2>Purchase Order Booked !!!</h2>
+                <ul class="breadcrumb">
+                    
+                    <li class="breadcrumb-item active">Thanks For Shopping Here</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End All Title Box -->
+<!-- Start Cart  -->
+<div class="cart-box-main">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-10" >
+                <div class="table-main table-responsive">
+                    <table class="table table-danger table-hover table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Images</th>
+                                <th>Product Name</th>
+                                <th>Price</th>
+                                <th>Quantity</th>
+                                <th>Total</th>
+                                
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @if (Session["myCart"] != null)
+                            {
+
+                                foreach (var item in (List<Product>)Session["myCart"])
+                                {
+                                    <tr>
+                                        <td class="thumbnail-img">
+                                            <a href="#">
+                                                <img style="width:100px;height:120px" src="@Url.Content(item.PRODUCT_PICTURE)" alt="" />
+                                            </a>
+                                        </td>
+                                        <td class="name-pr">
+                                            <a href="#">
+                                                @item.PRODUCT_NAME
+                                            </a>
+                                            <br />
+                                            <h4>@item.PRODUCT_DESCRIPTION</h4>
+                                        </td>
+                                        <td class="price-pr">
+                                            <b>Rs. @item.PRODUCT_PURCHASEPRICE</b>
+                                        </td>
+                                        
+                                        <td class="total-pr">
+                                            <p>Rs. @(decimal.Parse(item.PRODUCT_PURCHASEPRICE.ToString()) * int.Parse(item.PRO_QUANTITY.ToString()))</p>
+                                        </td>
+                                       
+                                    </tr>
+                                    row++;
+                                    totalQty += item.PRO_QUANTITY;
+                                    totalBill += (decimal.Parse(item.PRODUCT_PURCHASEPRICE.ToString()) * int.Parse(item.PRO_QUANTITY.ToString()));
+                                }
+                                Session["totalAmount"] = totalBill;
+                            }
+                       </tbody>
+                        <tfoot>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td><b>@totalQty</b></td>
+                                <td><b>@totalBill</b></td>
+                                <td></td>
+
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="row my-5">
+            @if (Session["Order"] != null)
+            {
+                Order o = (Order)Session["Order"];
+                <div class="col-lg-6 col-sm-12">
+                    <div class="order-box">
+                        <h3>Vendor's Detail</h3>
+                        <div class="d-flex">
+                            <h4>Name</h4>
+                            <div class="ml-auto font-weight-bold"> @o.ORDER_NAME </div>
+                        </div>
+                        <div class="d-flex">
+                            <h4>Email</h4>
+                            <div class="ml-auto font-weight-bold"> @o.ORDER_EMAIL</div>
+                        </div>
+                        <hr class="my-1">
+                        <div class="d-flex">
+                            <h4>Contact</h4>
+                            <div class="ml-auto font-weight-bold"> @o.ORDER_CONTACT</div>
+                        </div>
+                        <div class="d-flex">
+                            <h4>Address</h4>
+                            <div class="ml-auto font-weight-bold"> @o.ORDER_ADDRESS </div>
+                        </div>
+                        <div class="d-flex">
+                            <h4>Order Status</h4>
+                            <div class="ml-auto font-weight-bold"> Paid </div>
+                        </div>
+                        <hr>
+                        <div class="d-flex gr-total">
+                            <h5>THANK YOU!,EternGlam</h5>
+                        </div>
+                        <hr>
+                        <div class="ml-auto h5">Order will be deliverd as per term's and conditions. </div>
+                    </div>
+                </div>
+            }
+            <div class="col-lg-6 col-sm-12">
+                <div class="order-box">
+                    <h3>Order Summary</h3>
+                    <div class="d-flex">
+                        <h4>Sub Total</h4>
+                        <div class="ml-auto font-weight-bold"> Rs. @totalBill </div>
+                    </div>
+                    <div class="d-flex">
+                        <h4>Discount</h4>
+                        <div class="ml-auto font-weight-bold"> Rs. 0 </div>
+                    </div>
+                    <hr class="my-1">
+                    <div class="d-flex">
+                        <h4>Coupon Discount</h4>
+                        <div class="ml-auto font-weight-bold"> Rs. 0 </div>
+                    </div>
+                    <div class="d-flex">
+                        <h4>Tax</h4>
+                        <div class="ml-auto font-weight-bold"> Rs. 0 </div>
+                    </div>
+                    <div class="d-flex">
+                        <h4>Shipping Cost</h4>
+                        <div class="ml-auto font-weight-bold"> Rs. 0 </div>
+                    </div>
+                    <hr>
+                    <div class="d-flex gr-total">
+                        <h5>Grand Total</h5>
+                        <div class="ml-auto h5"> @totalBill </div>
+                    </div>
+                    <hr>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- End Cart -->

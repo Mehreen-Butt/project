@@ -1,0 +1,57 @@
+﻿@model IEnumerable<Fyp.Models.Company>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a class="btn btn-danger btn-lg" href="@Url.Action("Create","Companies")">Add Company Details</a>
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.COMPANY_NAME)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.COMPANY_EMAIL)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.COMPANY_CONTACT)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.COMPANY_ADDRESS)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.COMPANY_LOGO)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.COMPANY_NAME)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.COMPANY_EMAIL)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.COMPANY_CONTACT)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.COMPANY_ADDRESS)
+        </td>
+        <td>
+            <img height="100px" width="100px" src="@Url.Content(item.COMPANY_LOGO)" />
+        </td>
+        <td>
+            <a class="btn btn-primary glyphicon glyphicon-edit" href="@Url.Action("Edit", "Companies", new {id = item.COMPANY_ID})"></a> |
+            <a class="btn btn-success glyphicon glyphicon-book" href="@Url.Action("Details", "Companies", new {id = item.COMPANY_ID})"></a>|
+            <a class="btn btn-danger glyphicon glyphicon-trash" href="@Url.Action("Delete", "Companies", new {id = item.COMPANY_ID})"></a>|
+        </td>
+    </tr>
+}
+
+</table>

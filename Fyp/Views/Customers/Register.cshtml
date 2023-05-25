@@ -1,0 +1,68 @@
+﻿@model Fyp.Models.Customer
+
+@{
+    Layout = "~/Views/Shared/_LayoutCustomer.cshtml";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>RegistrationForm_v10 by Colorlib</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- LINEARICONS -->
+    <link rel="stylesheet" href="~/Content/Register/fonts/linearicons/style.css">
+
+    <!-- STYLE CSS -->
+    <link rel="stylesheet" href="~/Content/Register/css/style.css">
+</head>
+
+<body>
+
+    <div  style="background-color: #89d364;" class="wrapper">
+        <div class="inner">
+
+            @using (Html.BeginForm("Register", "Customers", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <h3>New Account?</h3>
+                <div class="form-holder">
+                    <span class="lnr lnr-user"></span>
+                    <input type="text" class="form-control" name="CUSTOMER_NAME" placeholder="Username">
+                    @Html.ValidationMessageFor(model => model.CUSTOMER_NAME, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-holder">
+                    <span class="lnr lnr-envelope"></span>
+                    <input type="email" name="CUSTOMER_EMAIL" class="form-control" placeholder="Email">
+                    @Html.ValidationMessageFor(model => model.CUSTOMER_EMAIL, "", new { @class = "text-danger" })
+
+                </div>
+                <div class="form-holder">
+                    <span class="lnr lnr-lock"></span>
+                    <input type="text" name="CUSTOMER_PASSWORD" class="form-control" placeholder="Password">
+                    @Html.ValidationMessageFor(model => model.CUSTOMER_PASSWORD, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-holder">
+                    <span class="lnr lnr-phone-handset"></span>
+                    <input type="number" name="CUSTOMER_CONTACT" class="form-control" placeholder="Contact">
+                    @Html.ValidationMessageFor(model => model.CUSTOMER_CONTACT, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-holder">
+                    <span class="lnr lnr-apartment"></span>
+                    <input type="text" class="form-control" name="CUSTOMER_ADDRESS" placeholder="Address">
+                    @Html.ValidationMessageFor(model => model.CUSTOMER_ADDRESS, "", new { @class = "text-danger" })
+                </div>
+                <button style="background-color: #317210;" type="submit">
+                    <span>Register</span>
+                </button>
+            }
+        </div>
+
+            </div>
+
+    <script src="~/Content/Register/js/jquery-3.3.1.min.js"></script>
+    <script src="~/Content/Register/js/main.js"></script>
+</body><!-- This templates was made by Colorlib (https://colorlib.com) -->
+</html>

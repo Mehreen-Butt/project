@@ -1,0 +1,150 @@
+﻿@model IEnumerable<Fyp.Models.Order>
+@using Fyp.Models
+@{
+    Layout = "~/Views/Shared/_LayoutCustomer.cshtml";
+    Model3 db = new Model3();
+}
+
+@{
+
+    ViewBag.Title = "Invoice";
+}
+<div id="printArea">
+    <table width="100%">
+        <tr>
+            <td width="33%" rowspan="3"><img src="@Url.Content(db.Companies.Select(x=>x.COMPANY_LOGO).FirstOrDefault())" height="120px" width="120px" /></td>
+            <td width="33%"></td>
+            <td width="33%"><b>Email: </b>@db.Companies.Select(x => x.COMPANY_EMAIL).FirstOrDefault()</td>
+
+        </tr>
+        <tr>
+
+            <td></td>
+            <td><b>Address: </b>@db.Companies.Select(x => x.COMPANY_ADDRESS).FirstOrDefault()</td>
+        </tr>
+        <tr>
+
+            <td></td>
+            <td><b>Contact Us: </b>@db.Companies.Select(X => X.COMPANY_CONTACT).FirstOrDefault()</td>
+        </tr>
+    </table>
+    <center><h2> Order Invoice</h2></center>
+    @foreach (var o in Model)
+    {
+        <table class="table table-responsive table-borderless ">
+            <tr>
+                <td align="center" style="font-size:large" colspan="4">Order Detail</td>
+
+            </tr>
+            <tr>
+                <th>Order Number</th>
+                <td>@o.ORDER_ID</td>
+                <th>Person Name</th>
+                <td>@o.ORDER_NAME</td>
+            </tr>
+            <tr>
+                <th>Order Date</th>
+                <td>@o.ORDER_DATE</td>
+                <th>Phone</th>
+                <td>@o.ORDER_CONTACT</td>
+            </tr>
+            <tr>
+                <th>Order Status</th>
+                <td>@o.ORDER_STATUS</td>
+                <th>Email</th>
+                <td>@o.ORDER_EMAIL</td>
+            </tr>
+            <tr>
+                <th>Order Type</th>
+                <td>@o.ORDER_TYPE</td>
+                <th>Address</th>
+                <td>@o.ORDER_ADDRESS</td>
+            </tr>
+        </table>
+        <br />
+        double totalAmount = 0;
+        int totalQuantity = 0;
+
+        <table class="table table-responsive table-bordered table-hover">
+            <tr>
+                <td align="center" colspan="6" style="font-size:large"> Product Detail</td>
+            </tr>
+            <tr>
+                <th>Product Picture</th>
+                <th>Product Name</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Total Amount</th>
+            </tr>
+
+            @foreach (var od in o.OrderDetails)
+            {
+                <tr>
+                    <td> <img style="width:100px;height:100px" src="@Url.Content(od.Product.PRODUCT_PICTURE)" </td>
+
+                    <td>@od.Product.PRODUCT_NAME</td>
+                    <td>
+                        @if (o.ORDER_TYPE == "Purchase")
+                        {
+                            @od.PURCHASE_PRICE
+
+                        }
+                        else
+                        {
+                            @od.SALE_PRICE
+                        }
+                    </td>
+                    <td>@Math.Abs(Convert.ToInt32(od.QUANTITY))</td>
+                    <td>
+                        @if (o.ORDER_TYPE == "Purchase")
+                        {
+                            @(double.Parse(od.PURCHASE_PRICE.ToString()) * Math.Abs (int.Parse(od.QUANTITY.ToString())))
+                        }
+                        else
+                        {
+                            @(double.Parse(od.SALE_PRICE.ToString()) * Math.Abs( int.Parse(od.QUANTITY.ToString())))
+                        }
+                    </td>
+                </tr>
+                totalQuantity += Math.Abs(int.Parse(od.QUANTITY.ToString()));
+
+
+                if (o.ORDER_TYPE == "Purchase")
+                {
+                    totalAmount += (double.Parse(od.PURCHASE_PRICE.ToString()) * Math.Abs(int.Parse(od.QUANTITY.ToString())));
+                }
+                else
+                {
+                    totalAmount += (double.Parse(od.SALE_PRICE.ToString()) * Math.Abs(int.Parse(od.QUANTITY.ToString())));
+                }
+            }
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>@totalQuantity</td>
+                <td>@totalAmount</td>
+            </tr>
+        </table>
+    }
+</div>
+<input id="btn2" type="button" onclick="PrintFunction();" name="Print Report" value="Print Report" class="btn btn-success btn-block" />
+<script type="text/javascript">
+    function PrintFunction() {
+        var print = document.getElementById('printArea');
+
+        var printWindow = window.open('', '', 'height=400,width=800');
+        printWindow.document.write('<html><head><title>DIV Contents</title>');
+        printWindow.document.write('</head><body>');
+        printWindow.document.write(print.innerHTML);
+        printWindow.document.write('</body></html>');
+        printWindow.document.close();
+        setTimeout(function () {
+            printWindow.print();
+        }, 500);
+
+        return false;
+
+    }
+</script>
+

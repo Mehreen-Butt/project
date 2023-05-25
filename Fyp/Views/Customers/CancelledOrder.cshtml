@@ -1,0 +1,42 @@
+﻿@using Fyp.Models;
+
+
+
+@{
+    Model3 db = new Model3();
+    Customer c = (Customer)Session["Customer"];
+    Layout = "~/Views/Shared/_LayoutCustomer.cshtml";
+    ViewBag.Title = "Canceeled Order History";
+}
+
+<center><h2> Cancelled Order(s)</h2></center>
+<table class="table table-bordered table-hover ">
+    <tr>
+        <th>ORDER NUMBER</th>
+        <th>ORDER DATE</th>
+        <th>CUSTOMER NAME</th>
+        <th>CUSTOMER EMAIL</th>
+        <th>CUSTOMER ADDRESS</th>
+        <th>CUSTOMER CONTACT</th>
+        <th>ORDER STATUS</th>
+       
+        <th colspan="2">Action</th>
+    </tr>
+    @foreach (var o in db.Orders.Where(x=>x.ORDER_TYPE=="Sale" & x.STATUS=="Cancelled"))
+    {
+        if (o.CUSTOMER_FID == c.CUSTOMER_ID)
+        {
+        <tr>
+            <td align="center">@o.ORDER_ID</td>
+            <td align="center">@DateTime.Parse(o.ORDER_DATE.ToString()).ToLongDateString()</td>
+            <td align="center">@o.ORDER_NAME</td>
+            <td align="center">@o.ORDER_EMAIL</td>
+            <td align="center">@o.ORDER_ADDRESS</td>
+            <td align="center">@o.ORDER_CONTACT</td>
+            <td align="center">@o.ORDER_STATUS</td>
+            <td align="center"><a href="@Url.Action("OrderActivate", "Customers", new { id = o.ORDER_ID })" class="btn btn-success">Activate</a></td>
+            <td align="center"><a href="@Url.Action("Invoice", "Customers", new { id = o.ORDER_ID })" class="btn btn-success">View Invoice</a></td>
+        </tr>
+        }
+    }
+</table>

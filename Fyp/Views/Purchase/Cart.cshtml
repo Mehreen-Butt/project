@@ -1,0 +1,140 @@
+﻿@using Fyp.Models
+@{
+    int row = 0;
+    int totalQty = 0;
+    decimal totalBill = 0;
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+<!-- Start All Title Box -->
+<div class="all-title-box">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <h2> Purchase Cart</h2>
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">Shop</a></li>
+                    <li class="breadcrumb-item active">Cart</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End All Title Box -->
+<!-- Start Cart  -->
+<div class="cart-box-main">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-9">
+                <div class="table-main table-responsive">
+                    <table class="table table-danger table-hover table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Images</th>
+                                <th>Product Name</th>
+                                <th>Price</th>
+                                <th>Quantity</th>
+                                <th>Total</th>
+                                <th>Remove</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @if (Session["myCart"] != null)
+                            {
+
+                                foreach (var item in (List<Product>)Session["myCart"])
+                                {
+                                    <tr>
+                                        <td class="thumbnail-img">
+                                            <a href="#">
+                                                <img style="width:150px;height:120px" src="@Url.Content(item.PRODUCT_PICTURE)" alt="" />
+                                            </a>
+                                        </td>
+                                        <td class="name-pr">
+                                            <a href="#">
+                                                @item.PRODUCT_NAME
+                                            </a>
+                                            <br />
+                                            <h4>@item.PRODUCT_DESCRIPTION</h4>
+                                        </td>
+                                        <td class="price-pr">
+                                            <b>Rs. @item.PRODUCT_PURCHASEPRICE</b>
+                                        </td>
+                                        <td class="quantity-box">
+                                            <a href="@Url.Action("MinusFromCart", "Purchase", new { RowNo = row })" class="glyphicon glyphicon-minus "></a>
+                                            <b>@item.PRO_QUANTITY</b>
+                                            <a href="@Url.Action("PlusToCart", "Purchase", new { RowNo = row })" class="glyphicon glyphicon-plus "></a>
+
+                                        </td>
+                                        <td class="total-pr">
+                                            <p>Rs. @(decimal.Parse(item.PRODUCT_PURCHASEPRICE.ToString()) * int.Parse(item.PRO_QUANTITY.ToString()))</p>
+                                        </td>
+                                        <td class="remove-pr">
+                                            <a href="@Url.Action("RemoveFromCart", "Purchase", new { RowNo = row })">
+                                                <i class="glyphicon glyphicon-trash"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    row++;
+                                    totalQty += item.PRO_QUANTITY;
+                                    totalBill += (decimal.Parse(item.PRODUCT_PURCHASEPRICE.ToString()) * int.Parse(item.PRO_QUANTITY.ToString()));
+                                }
+                                Session["totalAmount"] = totalBill;
+                            }
+                            @if (Session["myCart"] == null || row == 0)
+                            {
+                                    <tr>
+                                        <td colspan="6" align="center"> <b style="color:red; font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;font-size:large"> Your Purchase Cart is Empty... Click<a href="@Url.Action("Purchase","Purchase")"> Here</a> to add items to stock</b> 
+                                        </td>
+                                    </tr>
+                                }
+
+                           
+                            
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="2"><a class="btn btn-danger btn-cart" href="@Url.Action("Purchase","Purchase")">Continue Purchases</a></td>
+                              
+                                <td></td>
+                                <td><b>@totalQty</b></td>
+                                <td><b>@totalBill</b></td>
+                                <td></td>
+
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+        @using (Html.BeginForm("CheckoutA", "Purchase"))
+        {
+        <div class="row my-5">
+            <div class="col-lg-6 col-sm-12">
+                <div class="order-box">
+                    <h3>Purchase summary</h3>
+                    <div class="d-flex">
+                        <h4>Sub Total</h4>
+                        <div class="ml-auto font-weight-bold"> Rs. @totalBill </div>
+                    </div>
+                   
+                    <hr>
+                    <div class="d-flex gr-total">
+                        <h5>Grand Total</h5>
+                        <div class="ml-auto h5"> @totalBill </div>
+                    </div>
+                    <hr>
+                </div>
+            </div>
+            <div class="col-12 d-flex shopping-box"><input type="submit" class="ml-auto btn hvr-hover" value="Checkout Now"> </div>
+        </div>
+        }
+    </div>
+</div>
+<!-- End Cart -->
+<script type="text/javascript">
+    window.onload = function ()
+    {
+        window.scrollBy(0, 180);
+    }
+</script>

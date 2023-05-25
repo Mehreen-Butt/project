@@ -1,0 +1,119 @@
+﻿@using Fyp.Models
+@{
+    Layout = "~/Views/Shared/_LayoutCustomer.cshtml";
+}
+<!doctype html>
+<html lang="en">
+<head>
+    <style>
+        
+        .request {
+            font-size: 1.00rem;
+            font-weight: 700;
+            padding-bottom: 0.36rem;
+        }
+        
+
+        
+    </style>
+</head>
+<body>
+
+    @using (Html.BeginForm("PToBilling", "Home"))
+    {
+
+        <div class="content">
+            <div class="container">
+                <div class="row my-5">
+                    <div class="col-lg-6 col-sm-12">
+                        @if (Session["Customer"] != null)
+                        {
+                            Customer c = (Customer)Session["Customer"];
+                        <div class="order-box">
+
+                            <h3>Enter personal information</h3>
+                            <div class="d-flex">
+                                <input name="ORDER_NAME" type="text" value="@c.CUSTOMER_NAME" required placeholder="Name" class="form-control" />
+
+
+                            </div>
+
+                            <hr class="d-flex">
+                            <div class="d-flex">
+                                <input name="ORDER_CONTACT" type="text" value="@c.CUSTOMER_CONTACT" required placeholder="Phone number" class="form-control" />
+
+                            </div>
+                            <hr class="my-2">
+                            <div class="d-flex">
+                                <input name="ORDER_EMAIL" type="email" value="@c.CUSTOMER_EMAIL" required placeholder="Email" class="form-control" />
+
+                            </div>
+                            <hr class="d-flex">
+                            <div class="d-flex">
+                                <textarea name="ORDER_ADDRESS" type="text" required placeholder="Address" class="form-control">@c.CUSTOMER_ADDRESS</textarea>
+                            </div>
+                            </div>
+                        }
+else
+                {
+                    <div class="order-box">
+<table width="100%">
+    <tr>
+        <td align="left"> <h3>Contact information</h3></td>
+        <td align="right"> <h3><span aria-hidden="true">Already have an account?</span>
+              <a href="@Url.Action("Login","Customers")">Login</a>
+              </h3></td>
+    </tr>
+</table>
+                       
+                        <div class="d-flex">
+                            <input name="ORDER_NAME" type="text"  required placeholder="Name" class="form-control" />
+
+
+                        </div>
+
+                        <hr class="d-flex">
+                        <div class="d-flex">
+                            <input name="ORDER_CONTACT" type="text"  required placeholder="Phone number" class="form-control" />
+
+                        </div>
+                        <hr class="my-2">
+                        <div class="d-flex">
+                            <input name="ORDER_EMAIL" type="email"  required placeholder="Email" class="form-control" />
+
+                        </div>
+                        <hr class="d-flex">
+                        <div class="d-flex">
+                            <textarea name="ORDER_ADDRESS" type="text" required placeholder="Address" class="form-control"></textarea>
+                        </div>
+                    </div>
+                }
+                        <hr class="my-2">
+                        <div class=" d-flex">
+                            <h4><b>Payment Mode</b></h4>
+                            <div class="ml-auto font-weight-bold">
+                                <input type="radio" value="Cash On Delivery" name="ORDER_STATUS" checked="checked" /> Cash On Delivery
+                                <br />     <input type="radio" value="Paid" name="ORDER_STATUS" /> Pay with PayPal
+                            </div>
+
+
+                        </div>
+                        <br />
+                        <div class="col-12 d-flex shopping-box">
+                            <input type="submit" class="ml-auto btn hvr-hover" value="PROCEED TO BILLING">
+
+                        </div>
+                    </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+       
+    }
+    
+
+
+</body>
+</html>

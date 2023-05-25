@@ -1,0 +1,69 @@
+﻿@using Fyp.Models
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+<!doctype html>
+<html lang="en">
+<head>
+    <style>
+        
+        .request {
+            font-size: 1.00rem;
+            font-weight: 700;
+            padding-bottom: 0.36rem;
+        }
+    </style>
+</head>
+<body>
+    @using (Html.BeginForm("PurchaseNow", "Purchase"))
+    {
+        <div class="content">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="row my-5">
+                        <div class="col-lg-6 col-sm-12">
+                            <div class="order-box">
+                                @* aik alag pagr bnana hai iska checkout py click kr k ana chahioya wo page abhi k liyay yahan e sai hai *@
+                                <h3>Enter seller information</h3>
+                                <div class="d-flex">
+                                    <input name="ORDER_NAME" type="text" required placeholder="Name" class="form-control" />
+
+
+                                </div>
+
+                                <hr class="my-2">
+                                <div class="d-flex">
+                                    <input name="ORDER_CONTACT" type="text" required placeholder="Phone number" class="form-control" />
+
+                                </div>
+                                <hr class="my-2">
+                                <div class="d-flex">
+                                    <input name="ORDER_EMAIL" type="email" required placeholder="Email" class="form-control" />
+
+                                </div>
+                                <hr class="my-2">
+                                <div class="d-flex">
+                                    <textarea name="ORDER_ADDRESS" type="text" required placeholder="Address" class="form-control"></textarea>
+                                </div>
+                                <hr class="my-2">
+
+                                <h4>please provide correct information</h4>
+                            </div>
+                        </div>
+
+                        <div class="col-12 d-flex shopping-box"><input type="submit" class="ml-auto btn hvr-hover" value="PROCEED TO PURCHASE"> </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+                    }
+
+
+
+
+
+
+
+
+    </body>
+</html>
